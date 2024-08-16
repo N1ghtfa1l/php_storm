@@ -11,7 +11,7 @@ class EditController extends Controller
 {
     public function __invoke(Items $item)
     {
-        $categories = Categories::all(); // Получаем все категории
+        $categories = Categories::all();
         return view('admin_panel/item/edit', compact('item', 'categories'));
     }
 }

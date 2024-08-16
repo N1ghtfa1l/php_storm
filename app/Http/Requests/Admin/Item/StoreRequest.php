@@ -25,8 +25,8 @@ class StoreRequest extends FormRequest
             'name' => 'string|required',
             'preview_text' => 'string|required',
             'price' => 'string|required',
-            'categories' => 'nullable|array', // Убедитесь, что это массив
-            'categories.*' => 'exists:categories,id',  // Убедитесь, что каждый элемент массива категорий существуе
+            'categories' => 'nullable|array',
+            'categories.*' => 'exists:categories,id',
         ];
     }
 }

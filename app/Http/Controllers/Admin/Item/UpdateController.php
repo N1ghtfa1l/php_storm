@@ -14,20 +14,13 @@ class UpdateController extends Controller
     {
         $data = $request->validated();
         $item->update($request->only(['name', 'preview_text', 'price']));
-
-        // Синхронизируем категории
         $item->categories()->sync($request->input('categories', []));
-
-        // Перенаправляем обратно с сообщением об успешном обновлении
         return redirect()->route('main.index');
     }
 
     public function edit(Items $item)
     {
-        // Получаем все категории
         $categories = Categories::all();
-
-        // Передаем данные во вьюху
         return view('admin.item.edit', compact('item', 'categories'));
     }
 
