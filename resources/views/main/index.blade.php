@@ -64,8 +64,8 @@
 
         .category-actions, .item-actions {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+
         }
 
         .item-info {
@@ -79,6 +79,7 @@
         .item-inner {
             display: flex;
             justify-content: space-between;
+            min-width: 500px;
         }
 
         li {
@@ -94,8 +95,13 @@
     </style>
 </head>
 <body>
-<a href="{{route('admin.category.index')}}" class="button">Админ панель</a>
+@auth
+    @if(auth()->user()->role === 'admin')
+        <a href="{{ route('admin.category.index') }}" class="button">Админ панель</a>
+    @endif
+@endauth
 <a href="{{ route('main.index') }}" class="button">Показать все</a>
+<a href="{{ route('dashboard') }}" class="button">Вернуться в панель</a>
 <div class="container">
 
     <div class="column">
@@ -106,12 +112,20 @@
                        class="category-item {{ $categoryId == $category->id ? 'active' : '' }}">
                         <div>{{$category->name}}</div>
                         <div>
+                            @auth
+                                @if(auth()->user()->role === 'admin')
                             <a href="{{route('admin.category.edit', $category->id)}}" class="button">Изменить</a>
+                                @endif
+                            @endauth
                             <form action="{{route('admin.category.delete', $category->id)}}" method="POST"
                                   style="display:inline;">
                                 @csrf
+                                @auth
+                                    @if(auth()->user()->role === 'admin')
                                 @method('DELETE')
                                 <button class="button button-delete" type="submit">Удалить</button>
+                                    @endif
+                                @endauth
                             </form>
                         </div>
                 </div>
@@ -132,11 +146,19 @@
                     </ul>
                 </div>
                 <div class="item-actions">
+                    @auth
+                        @if(auth()->user()->role === 'admin')
                     <a href="{{route('admin.item.edit', $item->id)}}" class="button">Изменить</a>
+                        @endif
+                    @endauth
                     <form action="{{route('admin.item.delete', $item->id)}}" method="POST" style="display:inline;">
                         @csrf
+                        @auth
+                            @if(auth()->user()->role === 'admin')
                         @method('DELETE')
                         <button class="button button-delete" type="submit">Удалить</button>
+                            @endif
+                        @endauth
                     </form>
                 </div>
             </div>
